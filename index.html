@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download GitHub Repo</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #00c6fb;
+        }
+        .error {
+            color: red;
+            font-size: 0.9rem;
+        }
+        .link {
+            margin-top: 1rem;
+            display: block;
+            color: #333;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Download GitHub Repo</h1>
+    <input type="text" id="repoName" placeholder="username/repo">
+    <button onclick="generateDownload()">Download ZIP</button>
+    <div class="error" id="errorMsg"></div>
+    <a id="downloadLink" class="link" target="_blank"></a>
+</div>
+
+<script>
+    function generateDownload() {
+        const repoInput = document.getElementById("repoName");
+        const errorMsg = document.getElementById("errorMsg");
+        const downloadLink = document.getElementById("downloadLink");
+        
+        const repo = repoInput.value.trim();
+
+        if (!repo || !repo.includes("/")) {
+            errorMsg.textContent = "Please enter a valid repo in username/repo format.";
+            downloadLink.textContent = "";
+            downloadLink.href = "";
+            return;
+        }
+
+        errorMsg.textContent = "";
+        const url = `https://github.com/${repo}/archive/refs/heads/main.zip`;
+        downloadLink.href = url;
+        downloadLink.textContent = "Click here if download doesn't start automatically.";
+
+        // Trigger automatic download
+        window.open(url, "_blank");
+    }
+</script>
+
+</body>
+</html>
